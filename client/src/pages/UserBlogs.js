@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BlogCard from "../components/BlogCard";
-const Blogs = () => {
+const UserBlogs = () => {
   const [blogs, setBlogs] = useState([]);
-  // get blogs
 
-  const getAllBlogs = async () => {
+  // get user blogs
+  const getUserBlogs = async () => {
     try {
-      const { data } = await axios.get("/api/v1/blog/all-blog");
+      const id = localStorage.getItem("userId");
+      const { data } = await axios.get(`/api/v1/blog/user-blog/${id}`);
       if (data?.success) {
-        setBlogs(data?.blogs);
+        setBlogs(data?.userBlog.blogs);
       }
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getAllBlogs();
+    getUserBlogs();
   }, []);
   return (
-    <div>
-      {blogs &&
+    <>
+      {blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <BlogCard
             title={blog.title}
@@ -29,9 +30,12 @@ const Blogs = () => {
             username={blog.user.username}
             time={blog.createdAt}
           />
-        ))}
-    </div>
+        ))
+      ) : (
+        <h1>You Havent Created a Blog</h1>
+      )}
+    </>
   );
 };
 
-export default Blogs;
+export default UserBlogs;
