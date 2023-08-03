@@ -52,8 +52,11 @@ export default function BlogCard({
       />
       <CardMedia component="img" height="194" image={image} alt="Paella dish" />
       <CardContent>
+        <Typography variant="h6" color="text.secondary">
+          Title: {title}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
-          {description}
+          Description: {description}
         </Typography>
       </CardContent>
     </Card>
